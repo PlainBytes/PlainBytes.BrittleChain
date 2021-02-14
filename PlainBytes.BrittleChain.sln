@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBytes.BrittleChain", "source\PlainBytes.BrittleChain\PlainBytes.BrittleChain.csproj", "{3FF90508-2EC5-41DE-920B-D135DB67F159}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBytes.BrittleChain.Tests", "tests\PlainBytes.BrittleChain.Tests\PlainBytes.BrittleChain.Tests.csproj", "{27C368FD-DF1C-4FFC-977D-A9F104B7F0C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FF90508-2EC5-41DE-920B-D135DB67F159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF90508-2EC5-41DE-920B-D135DB67F159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF90508-2EC5-41DE-920B-D135DB67F159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF90508-2EC5-41DE-920B-D135DB67F159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27C368FD-DF1C-4FFC-977D-A9F104B7F0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C368FD-DF1C-4FFC-977D-A9F104B7F0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C368FD-DF1C-4FFC-977D-A9F104B7F0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C368FD-DF1C-4FFC-977D-A9F104B7F0C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
