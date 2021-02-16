@@ -2,6 +2,25 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Small library to simplify chaining actions and their error handling.</Description>
+        <AssemblyTitle>Brittle chain</AssemblyTitle>
+        <Authors>PlainBytes</Authors>
+        <AssemblyName>PlainBytes.BrittleChain</AssemblyName>
+        <PackageId>PlainBytes.BrittleChain</PackageId>
+        <PackageTags>Maybe;Fluent;Conditional;</PackageTags>
+        <PackageProjectUrl>https://github.com/PlainBytes/PlainBytes.BrittleChain</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PlainBytes/PlainBytes.BrittleChain</RepositoryUrl>
+        <Version>0.1.0.0</Version>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+        <PackageIcon>icon.png</PackageIcon>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="Assets\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>.</PackagePath>
+        </None>
+    </ItemGroup>
 </Project>
