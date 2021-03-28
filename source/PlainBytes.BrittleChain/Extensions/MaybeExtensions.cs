@@ -12,7 +12,7 @@ namespace PlainBytes.BrittleChain.Extensions
         /// Wraps the provided value into a <see cref="Maybe{T}"/>.
         /// </summary>
         /// <param name="value">Value which will be contained</param>
-        /// <typeparam name="T">Type of provided value</typeparam>
+        /// <typeparam name="T">Type of provided value.</typeparam>
         /// <returns>Instance of  <see cref="Maybe{T}"/> holding the provided value.</returns>
         public static Maybe<T> AsMaybe<T>(this T value) => FromValue(value);
 

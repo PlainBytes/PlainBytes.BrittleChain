@@ -6,9 +6,19 @@ using PlainBytes.BrittleChain.Extensions;
 
 namespace PlainBytes.BrittleChain.Asynchronous
 {
+    /// <summary>
+    /// Contains the continue on success extensions.
+    /// </summary>
     public static class ChainAsyncExtensions
     {
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T> onHasValue)
+        /// <summary>
+        /// Executes the provided action asynchronously with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Action which should be called.</param>
+        /// <typeparam name="T">Type of Value</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T> onValue)
         {
             var source = await maybe;
 
@@ -16,7 +26,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await Task.Run(() => onHasValue(source.Value));
+                    await Task.Run(() => onValue(source.Value));
                 }
                 catch (Exception ex)
                 {
@@ -28,7 +38,15 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T> onHasValue, Action<Exception> onError)
+        /// <summary>
+        /// Executes the provided action asynchronously with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Action which should be called.</param>
+        /// <param name="onError">Action which is called if exception occurs.</param>
+        /// <typeparam name="T">Type of Value</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T> onValue, Action<Exception> onError)
         {
             var source = await maybe;
 
@@ -36,7 +54,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await Task.Run(() => onHasValue(source.Value));
+                    await Task.Run(() => onValue(source.Value));
                 }
                 catch (Exception ex)
                 {
@@ -49,7 +67,15 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
 
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onHasValue, CancellationToken token)
+        /// <summary>
+        /// Executes the provided action asynchronously with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Action which should be called.</param>
+        /// <param name="token">Cancellation token for the asynchronous operation.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onValue, CancellationToken token)
         {
             var source = await maybe;
 
@@ -57,7 +83,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await Task.Run(() => onHasValue(source.Value, token), token);
+                    await Task.Run(() => onValue(source.Value, token), token);
                 }
                 catch (Exception ex)
                 {
@@ -69,7 +95,16 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
 
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onHasValue, Action<Exception> onError, CancellationToken token)
+        /// <summary>
+        /// Executes the provided action asynchronously with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Action which should be called.</param>
+        /// <param name="onError">Action which is called if exception occurs.</param>
+        /// <param name="token">Cancellation token for the asynchronous operation.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onValue, Action<Exception> onError, CancellationToken token)
         {
             var source = await maybe;
 
@@ -77,48 +112,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await Task.Run(() => onHasValue(source.Value, token), token);
-                }
-                catch (Exception ex)
-                {
-                    onError(ex);
-                    Debug.WriteLine(ex.Message);
-                    return Maybe.FromException<T>(ex);
-                }
-            }
-
-            return source;
-        }
-        
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onHasValue)
-        {
-            var source = await maybe;
-
-            if (source.HasValue)
-            {
-                try
-                {
-                    await onHasValue(source.Value);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    return Maybe.FromException<T>(ex);
-                }
-            }
-
-            return source;
-        }
-        
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onHasValue, Action<Exception> onError)
-        {
-            var source = await maybe;
-
-            if (source.HasValue)
-            {
-                try
-                {
-                    await onHasValue(source.Value);
+                    await Task.Run(() => onValue(source.Value, token), token);
                 }
                 catch (Exception ex)
                 {
@@ -130,8 +124,15 @@ namespace PlainBytes.BrittleChain.Asynchronous
 
             return source;
         }
-
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onHasValue, CancellationToken token)
+        
+        /// <summary>
+        /// Executes the provided Task with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Task which should be called.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onValue)
         {
             var source = await maybe;
 
@@ -139,7 +140,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await onHasValue(source.Value, token);
+                    await onValue(source.Value);
                 }
                 catch (Exception ex)
                 {
@@ -151,7 +152,15 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onHasValue, Action<Exception> onError, CancellationToken token)
+        /// <summary>
+        /// Executes the provided Task with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Task which should be called.</param>
+        /// <param name="onError">Action which is called if exception occurs.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onValue, Action<Exception> onError)
         {
             var source = await maybe;
 
@@ -159,7 +168,65 @@ namespace PlainBytes.BrittleChain.Asynchronous
             {
                 try
                 {
-                    await onHasValue(source.Value, token);
+                    await onValue(source.Value);
+                }
+                catch (Exception ex)
+                {
+                    onError(ex);
+                    Debug.WriteLine(ex.Message);
+                    return Maybe.FromException<T>(ex);
+                }
+            }
+
+            return source;
+        }
+
+        /// <summary>
+        /// Executes the provided Task with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Task which should be called.</param>
+        /// <param name="token">Cancellation token for the asynchronous operation.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onValue, CancellationToken token)
+        {
+            var source = await maybe;
+
+            if (source.HasValue)
+            {
+                try
+                {
+                    await onValue(source.Value, token);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return Maybe.FromException<T>(ex);
+                }
+            }
+
+            return source;
+        }
+
+        /// <summary>
+        /// Executes the provided Task with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// </summary>
+        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
+        /// <param name="onValue">Task which should be called.</param>
+        /// <param name="onError">Action which is called if exception occurs.</param>
+        /// <param name="token">Cancellation token for the asynchronous operation.</param>
+        /// <typeparam name="T">Type of Value.</typeparam>
+        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
+        public static async Task<Maybe<T>> ChainAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onValue, Action<Exception> onError, CancellationToken token)
+        {
+            var source = await maybe;
+
+            if (source.HasValue)
+            {
+                try
+                {
+                    await onValue(source.Value, token);
                 }
                 catch (Exception ex)
                 {
