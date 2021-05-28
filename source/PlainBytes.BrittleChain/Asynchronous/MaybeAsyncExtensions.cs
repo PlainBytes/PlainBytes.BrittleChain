@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using PlainBytes.BrittleChain.Extensions;
+using PlainBytes.BrittleChain.Synchronous;
 
 namespace PlainBytes.BrittleChain.Asynchronous
 {
