@@ -11,7 +11,6 @@ using PlainBytes.BrittleChain.Synchronous;
 var source = 123.AsMaybe();
 var result = source
         
-    .Do(value => { })
     .TryDo(value => { })
     .TryDo(value => { }, error => {})
     
@@ -27,8 +26,6 @@ var result = source
 
 var asyncResult = result.AsMaybeAsync()
     
-    .DoAsync(value => { })
-    .DoAsync((value, token) => { }, CancellationToken.None)
     .TryDoAsync((value) => { }, error => { })
     .TryDoAsync((value, token) => { }, CancellationToken.None)
     .TryDoAsync((value, token) => { }, error => { }, CancellationToken.None)
