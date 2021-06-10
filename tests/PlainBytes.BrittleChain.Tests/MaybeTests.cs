@@ -1,5 +1,5 @@
 using System;
-using PlainBytes.BrittleChain.Extensions;
+using PlainBytes.BrittleChain.Synchronous;
 using Xunit;
 
 namespace PlainBytes.BrittleChain.Tests
@@ -11,7 +11,7 @@ namespace PlainBytes.BrittleChain.Tests
         {
             // arrange
             const string expected = "Expected message";
-            var sut = Maybe.FromException<string>(new ArgumentException(expected));
+            var sut = MaybeExtensions.FromException<string>(new ArgumentException(expected));
 
             // act
             var actual = sut.ToString();
@@ -28,7 +28,7 @@ namespace PlainBytes.BrittleChain.Tests
         {
             // arrange
             var expected = input.ToString();
-            var sut = Maybe.FromValue(input);
+            var sut = MaybeExtensions.FromValue(input);
 
             // act
             var actual = sut.ToString();

@@ -1,5 +1,5 @@
 ﻿using System;
-using PlainBytes.BrittleChain.Extensions;
+using PlainBytes.BrittleChain.Synchronous;
 using Xunit;
 
 namespace PlainBytes.BrittleChain.Tests.Extensions
@@ -12,7 +12,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
 
             // Act
-            var result = Maybe.FromValue<object>(null); 
+            var result = MaybeExtensions.FromValue<object>(null); 
             
             // Assert
             Assert.IsType<ArgumentException>(result.Exception);
@@ -29,7 +29,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             var expectedType = input.GetType();
             
             // Act
-            var result = Maybe.FromValue(input);
+            var result = MaybeExtensions.FromValue(input);
 
             // Assert
             Assert.Equal(input, result.Value);
@@ -42,7 +42,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
 
             // Act
-            var result = Maybe.AsMaybe<string>(null); 
+            var result = MaybeExtensions.AsMaybe<string>(null); 
             
             // Assert
             Assert.IsType<ArgumentException>(result.Exception);
@@ -74,7 +74,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             var expected = new NullReferenceException(expectedMessage);
             
             // Act
-            var result = Maybe.FromException<int>(expected);
+            var result = MaybeExtensions.FromException<int>(expected);
 
             // Assert
             Assert.Equal(expected, result.Exception);
@@ -87,7 +87,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
             source.Chain(OnValue);
@@ -101,7 +101,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         {
             // Arrange
             void OnValue(string _) { }
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
 
             // Act
             var result = expected.Chain(OnValue);
@@ -116,7 +116,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
             source.Chain(OnValue);
@@ -126,15 +126,15 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
 
         [Fact]
-        public void Chain_GivenActionThrowsException_ThenReturnException()
+        public void TryChain_GivenActionThrowsException_ThenReturnException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             void OnValue(string _) => throw new ArithmeticException(expectedMessage);
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Chain(OnValue);
+            var result = source.TryChain(OnValue);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -142,63 +142,63 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
         
         [Fact]
-        public void Chain_OnError_GivenInputHasValue_ThenCallAction()
+        public void TryChain_OnError_GivenInputHasValue_ThenCallAction()
         {
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
             void OnError(Exception e) {}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Chain(OnValue,OnError);
+            source.TryChain(OnValue,OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
         }
 
         [Fact]
-        public void Chain_OnError_GivenInputHasValue_ThenReturnSource()
+        public void TryChain_OnError_GivenInputHasValue_ThenReturnSource()
         {
             // Arrange
             void OnValue(string _) { }
             void OnError(Exception e) {}
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
             
             // Act
-            var result = expected.Chain(OnValue, OnError);
+            var result = expected.TryChain(OnValue, OnError);
 
             // Assert
             Assert.Equal(expected, result);
         }
         
         [Fact]
-        public void Chain_OnError_GivenInputHasException_ThenDoNotCallAction()
+        public void TryChain_OnError_GivenInputHasException_ThenDoNotCallAction()
         {
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
             void OnError(Exception e) {}
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
-            source.Chain(OnValue, OnError);
+            source.TryChain(OnValue, OnError);
 
             // Assert
             Assert.Equal(0, numberOfCalls);
         }
 
         [Fact]
-        public void Chain_OnError_GivenActionThrowsException_ThenReturnException()
+        public void TryChain_OnError_GivenActionThrowsException_ThenReturnException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             void OnValue(string _) => throw new ArithmeticException(expectedMessage);
             void OnError(Exception e) {}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Chain(OnValue, OnError);
+            var result = source.TryChain(OnValue, OnError);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -206,7 +206,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
         
         [Fact]
-        public void Chain_OnError_GivenActionThrowsException_ThenCallOnErrorWithException()
+        public void TryChain_OnError_GivenActionThrowsException_ThenCallOnErrorWithException()
         {
             // Arrange
             var numberOfCalls = 0;
@@ -218,10 +218,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 onErrorException = e;
                 numberOfCalls++;
             }
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Chain(OnValue, OnError);
+            source.TryChain(OnValue, OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
@@ -235,10 +235,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Do(OnValue);
+            source.TryDo(OnValue);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
@@ -249,10 +249,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         {
             // Arrange
             void OnValue(string _) { }
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = expected.Do(OnValue);
+            var result = expected.TryDo(OnValue);
 
             // Assert
             Assert.Equal(expected, result);
@@ -264,10 +264,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
-            source.Do(OnValue);
+            source.TryDo(OnValue);
 
             // Assert
             Assert.Equal(0, numberOfCalls);
@@ -279,10 +279,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var expectedMessage = "expected-message";
             void OnValue(string _) => throw new ArithmeticException(expectedMessage);
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Do(OnValue);
+            var result = source.TryDo(OnValue);
 
             // Assert
             Assert.Equal(source, result);
@@ -295,10 +295,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
             void OnError(Exception e) {}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Do(OnValue,OnError);
+            source.TryDo(OnValue,OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
@@ -310,10 +310,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             void OnValue(string _) { }
             void OnError(Exception e) {}
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
             
             // Act
-            var result = expected.Do(OnValue, OnError);
+            var result = expected.TryDo(OnValue, OnError);
 
             // Assert
             Assert.Equal(expected, result);
@@ -326,10 +326,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             var numberOfCalls = 0;
             void OnValue(string _) => numberOfCalls++;
             void OnError(Exception e) {}
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
-            source.Do(OnValue, OnError);
+            source.TryDo(OnValue, OnError);
 
             // Assert
             Assert.Equal(0, numberOfCalls);
@@ -342,10 +342,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             var expectedMessage = "expected-message";
             void OnValue(string _) => throw new ArithmeticException(expectedMessage);
             void OnError(Exception e) {}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Do(OnValue, OnError);
+            var result = source.TryDo(OnValue, OnError);
 
             // Assert
             Assert.Equal(source, result);
@@ -364,10 +364,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 onErrorException = e;
                 numberOfCalls++;
             }
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Do(OnValue, OnError);
+            source.TryDo(OnValue, OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
@@ -381,7 +381,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             // Arrange
             var numberOfCalls = 0;
             void OnError(Exception e) => numberOfCalls++;
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
             
             // Act
             source.OnFail(OnError);
@@ -394,7 +394,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         public void OnFail_Always_ReturnsItsSource()
         {
             // Arrange
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
             void OnError(Exception e) {}
             
             // Act
@@ -416,7 +416,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 onErrorException = e;
                 numberOfCalls++;
             }
-            var source = Maybe.FromException<string>(new ArithmeticException(expectedMessage));
+            var source = MaybeExtensions.FromException<string>(new ArithmeticException(expectedMessage));
             
             // Act
             source.OnFail(OnError);
@@ -438,7 +438,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 numberOfCalls++;
                 return input;
             }
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
             source.Shape(OnValue);
@@ -457,7 +457,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
             {
                 return expectedValue;
             }
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
 
             // Act
             var result = expected.Shape(OnValue);
@@ -476,7 +476,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 numberOfCalls++;
                 return input;
             }
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
             source.Shape(OnValue);
@@ -486,15 +486,15 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
         
         [Fact]
-        public void Shape_GivenInputHasException_ThenPassAlongException()
+        public void TryShape_GivenInputHasException_ThenPassAlongException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             int OnValue(string _) => throw new ArithmeticException(expectedMessage);
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
             
             // Act
-            var result = source.Shape(OnValue);
+            var result = source.TryShape(OnValue);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -502,15 +502,15 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
 
         [Fact]
-        public void Shape_GivenFunctionThrowsException_ThenReturnException()
+        public void TryShape_GivenFunctionThrowsException_ThenReturnException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             int OnValue(string _) => throw new ArithmeticException(expectedMessage);
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Shape(OnValue);
+            var result = source.TryShape(OnValue);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -518,7 +518,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
         
         [Fact]
-        public void Shape_OnError_GivenInputHasValue_ThenCallFunction()
+        public void TryShape_OnError_GivenInputHasValue_ThenCallFunction()
         {
             // Arrange
             var numberOfCalls = 0;
@@ -529,17 +529,17 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 return input;
             }
             void OnError(Exception e){}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Shape(OnValue,OnError);
+            source.TryShape(OnValue,OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
         }
 
         [Fact]
-        public void Shape_OnError_GivenInputHasValue_ThenReturnResultOfFunction()
+        public void TryShape_OnError_GivenInputHasValue_ThenReturnResultOfFunction()
         {
             // Arrange
             var expectedValue = 5;
@@ -549,17 +549,17 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 return expectedValue;
             }
             void OnError(Exception e){}
-            var expected = Maybe.FromValue(string.Empty);
+            var expected = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = expected.Shape(OnValue,OnError);
+            var result = expected.TryShape(OnValue,OnError);
 
             // Assert
             Assert.Equal(expectedValue, result.Value);
         }
         
         [Fact]
-        public void Shape_OnError_GivenInputHasException_ThenDoNotCallFunction()
+        public void TryShape_OnError_GivenInputHasException_ThenDoNotCallFunction()
         {
             // Arrange
             var numberOfCalls = 0;
@@ -569,26 +569,26 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 return input;
             }
             void OnError(Exception e){}
-            var source = Maybe.FromException<string>(new Exception());
+            var source = MaybeExtensions.FromException<string>(new Exception());
 
             // Act
-            source.Shape(OnValue,OnError);
+            source.TryShape(OnValue,OnError);
 
             // Assert
             Assert.Equal(0, numberOfCalls);
         }
         
         [Fact]
-        public void Shape_OnError_GivenInputHasException_ThenPassAlongException()
+        public void TryShape_OnError_GivenInputHasException_ThenPassAlongException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             int OnValue(string _) => throw new ArithmeticException(expectedMessage);
             void OnError(Exception e){}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
             
             // Act
-            var result = source.Shape(OnValue,OnError);
+            var result = source.TryShape(OnValue,OnError);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -596,16 +596,16 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
 
         [Fact]
-        public void Shape_OnError_GivenFunctionThrowsException_ThenReturnException()
+        public void TryShape_OnError_GivenFunctionThrowsException_ThenReturnException()
         {
             // Arrange
             var expectedMessage = "expected-message";
             int OnValue(string _) => throw new ArithmeticException(expectedMessage);
             void OnError(Exception e){}
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            var result = source.Shape(OnValue,OnError);
+            var result = source.TryShape(OnValue,OnError);
 
             // Assert
             Assert.IsType<ArithmeticException>(result.Exception);
@@ -613,7 +613,7 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
         }
         
         [Fact]
-        public void Shape_OnError_GivenFunctionThrowsException_ThenCallOnError()
+        public void TryShape_OnError_GivenFunctionThrowsException_ThenCallOnError()
         {
             // Arrange
             var numberOfCalls = 0;
@@ -625,10 +625,10 @@ namespace PlainBytes.BrittleChain.Tests.Extensions
                 onErrorException = e;
                 numberOfCalls++;
             }
-            var source = Maybe.FromValue(string.Empty);
+            var source = MaybeExtensions.FromValue(string.Empty);
 
             // Act
-            source.Shape(OnValue,OnError);
+            source.TryShape(OnValue,OnError);
 
             // Assert
             Assert.Equal(1, numberOfCalls);
