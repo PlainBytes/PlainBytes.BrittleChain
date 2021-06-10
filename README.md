@@ -15,6 +15,8 @@ There are many cases such as application boundaries, IO operations, network call
 If failure happens, this must be communicated back to the caller, which could be done by throwing, returning null or other "invalid" values.
 Now if we do this, that must be checked somehow, most likely with a try-catch, null check, type check, all of this results in a lot of noise which has nothing to do with the actual problem that we are trying to resolve.
 
+This pattern is nothing new, functional programing has solved it long time ago with [Monads](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
+
 ### Maybe has value, maybe failed?
 The Maybe type has a simple role, transport to ```Value``` or the ```Exception```. In either way defines a simple, unified way to make decisions.
 ```c#
