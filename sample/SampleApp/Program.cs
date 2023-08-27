@@ -25,7 +25,7 @@ var result = source
     
     .OnFail(error => { });
 
-var asyncResult = result.AsMaybeAsync()
+var asyncResult = result.ToResultTask()
     
     .TryDoAsync((value) => { }, error => { })
     .TryDoAsync((value, token) => { }, CancellationToken.None)
