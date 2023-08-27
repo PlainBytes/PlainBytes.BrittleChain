@@ -10,7 +10,7 @@
         <PackageTags>Maybe;Fluent;Conditional;</PackageTags>
         <PackageProjectUrl>https://github.com/PlainBytes/PlainBytes.BrittleChain</PackageProjectUrl>
         <RepositoryUrl>https://github.com/PlainBytes/PlainBytes.BrittleChain</RepositoryUrl>
-        <PackageLicenseUrl>https://github.com/PlainBytes/PlainBytes.BrittleChain/blob/master/LICENSE</PackageLicenseUrl>
+        <License type="expression">MIT</License>
         <Version>0.11.0.0</Version>
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
