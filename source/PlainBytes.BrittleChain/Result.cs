@@ -48,7 +48,7 @@ namespace PlainBytes.BrittleChain
         /// If value is <see langword="null"/> than it is still considered a failure.
         /// </summary>
         /// <param name="value">Value from which the result should be created.</param>
-        public static Result<T> CreateFrom(T value)
+        public static Result<T> FromValue(T value)
         {
             if (value == null)
             {
@@ -62,7 +62,7 @@ namespace PlainBytes.BrittleChain
         /// Creates a <see cref="Result{T}"/> from the provided exception.
         /// </summary>
         /// <param name="value">Value from which the result should be created.</param>
-        public static Result<T> CreateFromException(Exception value)
+        public static Result<T> FromException(Exception value)
         {
             return new Result<T>(value);
         }
@@ -71,7 +71,7 @@ namespace PlainBytes.BrittleChain
         /// Converts a value into a <see cref="Result{T}"/>.
         /// </summary>
         /// <param name="value">Value from which the result should be created.</param>
-        public static implicit operator Result<T>(T value) => CreateFrom(value);
+        public static implicit operator Result<T>(T value) => FromValue(value);
         
         /// <summary>
         /// Attempts to converts a <see cref="Result{T}"/> into its value.
@@ -93,6 +93,6 @@ namespace PlainBytes.BrittleChain
         /// Converts the provided exception into a <see cref="Result{T}"/>
         /// </summary>
         /// <param name="value">Exception from which the result should be created.</param>
-        public static implicit operator Result<T>(Exception value) => CreateFromException(value);
+        public static implicit operator Result<T>(Exception value) => FromException(value);
     }
 }

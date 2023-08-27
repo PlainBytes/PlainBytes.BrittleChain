@@ -18,10 +18,10 @@ namespace PlainBytes.BrittleChain
         {
             if (value is Exception exception)
             {
-                return Result<T>.CreateFromException(exception);
+                return Result<T>.FromException(exception);
             }
             
-            return Result<T>.CreateFrom(value);
+            return Result<T>.FromValue(value);
         }
 
         /// <summary>

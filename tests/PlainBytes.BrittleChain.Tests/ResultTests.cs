@@ -7,12 +7,12 @@ namespace PlainBytes.BrittleChain.Tests
     public class ResultTests
     {
         [Fact]
-        public void CreateFrom_GivenNullValue_ThanFail()
+        public void FromValue_GivenNullValue_ThanFail()
         {
             // Arrange
             
             // Act
-            var result = Result<string>.CreateFrom(null);
+            var result = Result<string>.FromValue(null);
 
             // Assert
             result.Succeeded.Should().BeFalse();
@@ -20,13 +20,13 @@ namespace PlainBytes.BrittleChain.Tests
         }
 
         [Fact]
-        public void CreateFrom_GivenValue_ThanSucceed()
+        public void FromValue_GivenValue_ThanSucceed()
         {
             // Arrange
             var expected = "test";
             
             // Act
-            var result = Result<string>.CreateFrom(expected);
+            var result = Result<string>.FromValue(expected);
 
             // Assert
             result.Value.Should().Be(expected);
@@ -35,10 +35,10 @@ namespace PlainBytes.BrittleChain.Tests
         }
 
         [Fact]
-        public void CreateFrom_GivenException_ThanFail()
+        public void FromException_GivenException_ThanFail()
         {
             // Act
-            var result = Result<string>.CreateFromException( new ArgumentException());
+            var result = Result<string>.FromException( new ArgumentException());
 
             // Assert
             result.Succeeded.Should().BeFalse();
@@ -53,7 +53,7 @@ namespace PlainBytes.BrittleChain.Tests
             var expected = "test";
             
             // Act
-            string result = Result<string>.CreateFrom(expected);
+            string result = Result<string>.FromValue(expected);
 
             // Assert
             result.Should().Be(expected);
@@ -63,7 +63,7 @@ namespace PlainBytes.BrittleChain.Tests
         public void ImplicitConversion_FromResult_ToValue_ThanShouldFail()
         {
             // Arrange
-            var result = Result<string>.CreateFromException( new ArgumentException());
+            var result = Result<string>.FromException( new ArgumentException());
 
             void AssertAction()
             {
@@ -106,7 +106,7 @@ namespace PlainBytes.BrittleChain.Tests
             var expected = "test";
             
             // Act
-            var result = Result<string>.CreateFrom(expected);
+            var result = Result<string>.FromValue(expected);
 
             // Assert
             result.ToString().Should().Be(expected);
@@ -117,7 +117,7 @@ namespace PlainBytes.BrittleChain.Tests
         {
             // Act
             var expected = "test";
-            var result = Result<string>.CreateFromException(new ArgumentException(expected));
+            var result = Result<string>.FromException(new ArgumentException(expected));
 
             // Assert
             result.ToString().Should().Be(expected);

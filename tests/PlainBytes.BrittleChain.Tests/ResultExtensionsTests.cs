@@ -86,7 +86,7 @@ namespace PlainBytes.BrittleChain.Tests
             // Arrange
             var expectedException = new Exception("test");
             
-            var result = Result<string>.CreateFromException(expectedException);
+            var result = Result<string>.FromException(expectedException);
             var successCalls = 0;
             var failureCalls = 0;
 
@@ -111,7 +111,7 @@ namespace PlainBytes.BrittleChain.Tests
             // Arrange
             var expectedException = new ArgumentException("test");
             
-            var result = Result<string>.CreateFromException(expectedException);
+            var result = Result<string>.FromException(expectedException);
             int calls = 0;
             
             // Act
@@ -131,7 +131,7 @@ namespace PlainBytes.BrittleChain.Tests
             // Arrange
             var expectedException = new ArgumentException("test");
             
-            var result = Result<string>.CreateFromException(expectedException);
+            var result = Result<string>.FromException(expectedException);
             var calls = 0;
             
             // Act
