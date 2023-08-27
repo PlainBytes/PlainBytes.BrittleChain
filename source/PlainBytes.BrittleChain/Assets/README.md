@@ -1,14 +1,7 @@
-<p align="center">
-    <img width="128" align="center" src="assets/icon.png" >
-</p>
+##  Brittle chain
 
-<h1 align="center">
-  Brittle chain
-</h1>
-
-<p align="center">
  Small opiniated library to simplify chaining actions and their error handling with the result pattern.
-</p>
+
 
 ### The problem 
 There are many cases such as application boundaries, IO operations, network calls, etc. where we the possibility of failure can be high.
