@@ -25,6 +25,46 @@ namespace PlainBytes.BrittleChain
         }
 
         /// <summary>
+        /// Maps the provided result to onSuccess and onFailure functions.
+        /// </summary>
+        /// <param name="result">Instance of <see cref="Result{T}"/> which should be evaluated.</param>
+        /// <param name="onSuccess">Action which should be executed if the result is successful.</param>
+        /// <param name="onError">Action which should be executed if the result has failed.</param>
+        /// <typeparam name="T">Type of the value.</typeparam>
+        /// <returns>Source instance of <see cref="Result{T}"/></returns>
+        public static Result<T> Map<T>(this Result<T> result, Action<T> onSuccess, Action<Exception> onError = null)
+        {
+            if (result.Succeeded)
+            {
+                onSuccess(result);
+            }
+            else
+            {
+                onError?.Invoke(result.Exception);
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
+        /// Maps the provided result to a specific exception.
+        /// </summary>
+        /// <param name="value">Instance of <see cref="Result{T}"/> which should be evaluated.</param>
+        /// <param name="onError">Action which should be executed if the result has failed.</param>
+        /// <typeparam name="T">Type of the value.</typeparam>
+        /// <typeparam name="TException">Type of the exception that should be acted upon.</typeparam>
+        /// <returns>Source instance of <see cref="Result{T}"/></returns>
+        public static Result<T> WhenFailedWith<T, TException>(this Result<T> value, Action<TException> onError)
+        {
+            if (value.Failed && value.Exception is TException exception)
+            {
+                onError(exception);
+            }
+
+            return value;
+        }
+        
+        /// <summary>
         /// Wraps the provided value into a <see cref="Result{T}"/> than a <see cref="value"/>.
         /// </summary>
         /// <param name="value">Value which will be contained</param>
