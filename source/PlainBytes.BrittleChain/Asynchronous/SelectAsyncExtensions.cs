@@ -9,7 +9,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
     /// <summary>
     /// Contains the convert on success extensions.
     /// </summary>
-    public static class ShapeAsyncExtensions
+    public static class SelectAsyncExtensions
     {
         /// <summary>
         /// Executes the provided function asynchronously with <see cref="Result{T}.Value"/>, if it has one and returns the result of the function..
@@ -19,7 +19,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the functions result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the functions result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, TResult> onValue)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, TResult> onValue)
         {
             Result<TResult> result;
 
@@ -55,7 +55,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the functions result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the functions result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, TResult> onValue, Action<Exception> onError)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, TResult> onValue, Action<Exception> onError)
         {
             Result<TResult> result;
 
@@ -92,7 +92,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the functions result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the functions result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, TResult> onValue, CancellationToken token)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, TResult> onValue, CancellationToken token)
         {
             Result<TResult> result;
 
@@ -129,7 +129,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the functions result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the functions result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, TResult> onValue, Action<Exception> onError,CancellationToken token)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, TResult> onValue, Action<Exception> onError,CancellationToken token)
         {
             Result<TResult> result;
 
@@ -165,7 +165,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the task result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the tasks result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, Task<TResult>> onValue)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, Task<TResult>> onValue)
         {
             Result<TResult> result;
 
@@ -201,7 +201,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the task result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the tasks result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, Task<TResult>> onValue, Action<Exception> onError)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, Task<TResult>> onValue, Action<Exception> onError)
         {
             Result<TResult> result;
 
@@ -238,7 +238,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the task result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the tasks result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task<TResult>> onValue, CancellationToken token)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task<TResult>> onValue, CancellationToken token)
         {
             Result<TResult> result;
 
@@ -275,7 +275,7 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of the task result.</typeparam>
         /// <returns> A <see cref="Result{T}"/> with the tasks result if it was successful, exception if it failed.</returns>
-        public static async Task<Result<TResult>> ShapeAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task<TResult>> onValue, Action<Exception> onError,CancellationToken token)
+        public static async Task<Result<TResult>> SelectAsync<T, TResult>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task<TResult>> onValue, Action<Exception> onError,CancellationToken token)
         {
             Result<TResult> result;
 

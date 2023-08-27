@@ -19,9 +19,9 @@ var result = source
     .TryChain(value => { })
     .TryChain(value => { }, error => { })
     
-    .Shape(value => value)
-    .TryShape(value => value)
-    .TryShape(value => value, error => { })
+    .Select(value => value)
+    .TrySelect(value => value)
+    .TrySelect(value => value, error => { })
     
     .OnFail(error => { });
 
@@ -37,8 +37,8 @@ var asyncResult = result.AsMaybeAsync()
     .TryChainAsync((value, token) => { }, CancellationToken.None)
     .TryChainAsync((value, token) => { }, error => { }, CancellationToken.None)
     
-    .ShapeAsync(value => value)
-    .ShapeAsync((value, token) => value, CancellationToken.None)
-    .TryShapeAsync((value) => value, error => { })
-    .TryShapeAsync((value, token) => value, CancellationToken.None)
-    .TryShapeAsync((value, token) => value, error => { }, CancellationToken.None);
+    .SelectAsync(value => value)
+    .SelectAsync((value, token) => value, CancellationToken.None)
+    .TrySelectAsync((value) => value, error => { })
+    .TrySelectAsync((value, token) => value, CancellationToken.None)
+    .TrySelectAsync((value, token) => value, error => { }, CancellationToken.None);

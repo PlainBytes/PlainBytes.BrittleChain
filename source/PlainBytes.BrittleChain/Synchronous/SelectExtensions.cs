@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace PlainBytes.BrittleChain.Synchronous
 {
-    public static class ShapeExtensions
+    public static class SelectExtensions
     {
         /// <summary>
         /// Executes the provided function with <see cref="Result{T}.Value"/>, only if it has one.
@@ -13,7 +13,7 @@ namespace PlainBytes.BrittleChain.Synchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Result<TResult> Shape<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
+        public static Result<TResult> Select<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
         {
             Result<TResult> result;
 
@@ -38,7 +38,7 @@ namespace PlainBytes.BrittleChain.Synchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Result<TResult> TryShape<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
+        public static Result<TResult> TrySelect<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
         {
             Result<TResult> result;
 
@@ -72,7 +72,7 @@ namespace PlainBytes.BrittleChain.Synchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Result<TResult> TryShape<T, TResult>(this Result<T> source, Func<T, TResult> onValue, Action<Exception> onError)
+        public static Result<TResult> TrySelect<T, TResult>(this Result<T> source, Func<T, TResult> onValue, Action<Exception> onError)
         {
             Result<TResult> result;
 
