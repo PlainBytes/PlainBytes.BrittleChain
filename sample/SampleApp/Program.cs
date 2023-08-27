@@ -5,7 +5,7 @@ using PlainBytes.BrittleChain.Synchronous;
 
 // Do: "JUST DO" Execute if has value, DO NOT change source, DO NOT break chain
 // Chain: "DO IF" Execute if has value, DOES change source if fails, DOES break chain
-// Shape: "CONVERT IF" Execute if has value, ALWAYS changes source, DOES break chain
+// Select: "CONVERT IF" Execute if has value, ALWAYS changes source, DOES break chain
 // Try: wraps the call into a try catch. 
 // OnFail: executes only if source has exception.
 
