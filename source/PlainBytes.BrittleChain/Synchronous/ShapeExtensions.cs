@@ -6,65 +6,65 @@ namespace PlainBytes.BrittleChain.Synchronous
     public static class ShapeExtensions
     {
         /// <summary>
-        /// Executes the provided function with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided function with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided function.</param>
         /// <param name="onValue">Function which should be called.</param>
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Maybe<TResult> Shape<T, TResult>(this Maybe<T> source, Func<T, TResult> onValue)
+        public static Result<TResult> Shape<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
         {
-            Maybe<TResult> result;
+            Result<TResult> result;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 var operationResult = onValue(source.Value);
-                result = MaybeExtensions.FromValue(operationResult);
+                result = operationResult;
             }
             else
             {
-                result = MaybeExtensions.FromException<TResult>(source.Exception);
+                result = source.Exception;
             }
 
             return result;
         }
 
         /// <summary>
-        /// Executes the provided function with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided function with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided function.</param>
         /// <param name="onValue">Function which should be called.</param>
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Maybe<TResult> TryShape<T, TResult>(this Maybe<T> source, Func<T, TResult> onValue)
+        public static Result<TResult> TryShape<T, TResult>(this Result<T> source, Func<T, TResult> onValue)
         {
-            Maybe<TResult> result;
+            Result<TResult> result;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
                     var operationResult = onValue(source.Value);
-                    result = MaybeExtensions.FromValue(operationResult);
+                    result = operationResult;
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    result = MaybeExtensions.FromException<TResult>(ex);
+                    result = ex;
                 }
             }
             else
             {
-                result = MaybeExtensions.FromException<TResult>(source.Exception);
+                result = source.Exception;
             }
 
             return result;
         }
 
         /// <summary>
-        /// Executes the provided function with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided function with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided function.</param>
         /// <param name="onValue">Function which should be called.</param>
@@ -72,27 +72,27 @@ namespace PlainBytes.BrittleChain.Synchronous
         /// <typeparam name="T">Type of Value</typeparam>
         /// <typeparam name="TResult">Type of returned Value</typeparam>
         /// <returns>A new container with the functions result, or with exception if it failed.</returns>
-        public static Maybe<TResult> TryShape<T, TResult>(this Maybe<T> source, Func<T, TResult> onValue, Action<Exception> onError)
+        public static Result<TResult> TryShape<T, TResult>(this Result<T> source, Func<T, TResult> onValue, Action<Exception> onError)
         {
-            Maybe<TResult> result;
+            Result<TResult> result;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
                     var operationResult = onValue(source.Value);
-                    result = MaybeExtensions.FromValue(operationResult);
+                    result = operationResult;
                 }
                 catch (Exception ex)
                 {
                     onError(ex);
                     Debug.WriteLine(ex.Message);
-                    result = MaybeExtensions.FromException<TResult>(ex);
+                    result = ex;
                 }
             }
             else
             {
-                result = MaybeExtensions.FromException<TResult>(source.Exception);
+                result = source.Exception;
             }
 
             return result;

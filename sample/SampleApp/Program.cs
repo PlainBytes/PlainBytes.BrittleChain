@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using PlainBytes.BrittleChain;
 using PlainBytes.BrittleChain.Asynchronous;
 using PlainBytes.BrittleChain.Synchronous;
 
@@ -8,7 +9,7 @@ using PlainBytes.BrittleChain.Synchronous;
 // Try: wraps the call into a try catch. 
 // OnFail: executes only if source has exception.
 
-var source = 123.AsMaybe();
+var source = 123.ToResult();
 var result = source
         
     .TryDo(value => { })

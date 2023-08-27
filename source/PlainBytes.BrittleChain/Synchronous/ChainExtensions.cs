@@ -6,15 +6,15 @@ namespace PlainBytes.BrittleChain.Synchronous
     public static class ChainExtensions
     {
         /// <summary>
-        /// Executes the provided action with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided action with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided action.</param>
         /// <param name="onValue">Action which should be called.</param>
         /// <typeparam name="T">Type of Value</typeparam>
         /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
-        public static Maybe<T> Chain<T>(this Maybe<T> source, Action<T> onValue)
+        public static Result<T> Chain<T>(this Result<T> source, Action<T> onValue)
         {
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 onValue(source.Value);
             }
@@ -23,16 +23,16 @@ namespace PlainBytes.BrittleChain.Synchronous
         }
 
         /// <summary>
-        /// Executes the provided action with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided action with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided action.</param>
         /// <param name="onValue">Action which should be called.</param>
         /// <param name="onError">Action which is called if exception occurs.</param>
         /// <typeparam name="T">Type of Value</typeparam>
         /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
-        public static Maybe<T> TryChain<T>(this Maybe<T> source, Action<T> onValue)
+        public static Result<T> TryChain<T>(this Result<T> source, Action<T> onValue)
         {
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -41,7 +41,7 @@ namespace PlainBytes.BrittleChain.Synchronous
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    return MaybeExtensions.FromException<T>(ex);
+                    return ex;
                 }
             }
 
@@ -49,16 +49,16 @@ namespace PlainBytes.BrittleChain.Synchronous
         }
         
         /// <summary>
-        /// Executes the provided action with <see cref="Maybe{T}.Value"/>, only if it has one.
+        /// Executes the provided action with <see cref="Result{T}.Value"/>, only if it has one.
         /// </summary>
         /// <param name="source">Container of Value, parameter for the provided action.</param>
         /// <param name="onValue">Action which should be called.</param>
         /// <param name="onError">Action which is called if exception occurs.</param>
         /// <typeparam name="T">Type of Value</typeparam>
         /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
-        public static Maybe<T> TryChain<T>(this Maybe<T> source, Action<T> onValue, Action<Exception> onError)
+        public static Result<T> TryChain<T>(this Result<T> source, Action<T> onValue, Action<Exception> onError)
         {
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -68,7 +68,7 @@ namespace PlainBytes.BrittleChain.Synchronous
                 {
                     Debug.WriteLine(ex.Message);
                     onError(ex);
-                    return MaybeExtensions.FromException<T>(ex);
+                    return ex;
                 }
             }
 
