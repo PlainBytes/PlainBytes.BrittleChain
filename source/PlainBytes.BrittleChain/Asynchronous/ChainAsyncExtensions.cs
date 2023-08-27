@@ -90,26 +90,6 @@ namespace PlainBytes.BrittleChain.Asynchronous
         /// </summary>
         /// <param name="maybe">Container of Value, parameter for the provided action.</param>
         /// <param name="onValue">Task which should be called.</param>
-        /// <param name="onError">Action which is called if exception occurs.</param>
-        /// <typeparam name="T">Type of Value.</typeparam>
-        /// <returns>Its source if it was successful, new container with exception if it failed.</returns>
-        public static async Task<Result<T>> ChainAsync<T>(this Task<Result<T>> maybe, Func<T, Task> onValue, Action<Exception> onError)
-        {
-            var source = await maybe;
-
-            if (source.Succeeded)
-            {
-                await onValue(source.Value);
-            }
-
-            return source;
-        }
-
-        /// <summary>
-        /// Executes the provided Task with <see cref="Result{T}.Value"/>, only if it has one.
-        /// </summary>
-        /// <param name="maybe">Container of Value, parameter for the provided action.</param>
-        /// <param name="onValue">Task which should be called.</param>
         /// <param name="token">Cancellation token for the asynchronous operation.</param>
         /// <typeparam name="T">Type of Value.</typeparam>
         /// <returns>Its source if it was successful, new container with exception if it failed.</returns>

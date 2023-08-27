@@ -17,28 +17,20 @@ var result = source
     
     .Chain(value => { })
     .TryChain(value => { })
-    .TryChain(value => { }, error => { })
     
     .Select(value => value)
-    .TrySelect(value => value)
-    .TrySelect(value => value, error => { })
-    
-    .OnFail(error => { });
+    .TrySelect(value => value);
 
 var asyncResult = result.ToResultTask()
-    
+
     .TryDoAsync((value) => { }, error => { })
     .TryDoAsync((value, token) => { }, CancellationToken.None)
     .TryDoAsync((value, token) => { }, error => { }, CancellationToken.None)
-    
+
     .ChainAsync(value => { })
     .ChainAsync((value, token) => { }, CancellationToken.None)
-    .TryChainAsync((value) => { }, error => { })
     .TryChainAsync((value, token) => { }, CancellationToken.None)
-    .TryChainAsync((value, token) => { }, error => { }, CancellationToken.None)
-    
+
     .SelectAsync(value => value)
     .SelectAsync((value, token) => value, CancellationToken.None)
-    .TrySelectAsync((value) => value, error => { })
-    .TrySelectAsync((value, token) => value, CancellationToken.None)
-    .TrySelectAsync((value, token) => value, error => { }, CancellationToken.None);
+    .TrySelectAsync((value, token) => value, CancellationToken.None);
