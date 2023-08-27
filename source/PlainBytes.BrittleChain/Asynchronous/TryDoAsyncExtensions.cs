@@ -10,11 +10,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
     /// </summary>
     public static class TryDoAsyncExtensions
     {
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Action<T> onHasValue)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Action<T> onHasValue)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -29,11 +29,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
 
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Action<T> onHasValue, Action<Exception> onError)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Action<T> onHasValue, Action<Exception> onError)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -49,11 +49,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onHasValue, CancellationToken token)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Action<T, CancellationToken> onHasValue, CancellationToken token)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -68,11 +68,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
 
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Action<T, CancellationToken> onHasValue, Action<Exception> onError, CancellationToken token)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Action<T, CancellationToken> onHasValue, Action<Exception> onError, CancellationToken token)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -88,11 +88,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onHasValue)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Func<T, Task> onHasValue)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -107,11 +107,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Func<T, Task> onHasValue, Action<Exception> onError)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Func<T, Task> onHasValue, Action<Exception> onError)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -127,11 +127,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
 
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onHasValue, CancellationToken token)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task> onHasValue, CancellationToken token)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {
@@ -146,11 +146,11 @@ namespace PlainBytes.BrittleChain.Asynchronous
             return source;
         }
         
-        public static async Task<Maybe<T>> TryDoAsync<T>(this Task<Maybe<T>> maybe, Func<T, CancellationToken, Task> onHasValue, Action<Exception> onError, CancellationToken token)
+        public static async Task<Result<T>> TryDoAsync<T>(this Task<Result<T>> maybe, Func<T, CancellationToken, Task> onHasValue, Action<Exception> onError, CancellationToken token)
         {
             var source = await maybe;
 
-            if (source.HasValue)
+            if (source.Succeeded)
             {
                 try
                 {

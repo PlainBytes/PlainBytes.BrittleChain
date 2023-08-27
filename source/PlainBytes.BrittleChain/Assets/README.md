@@ -64,5 +64,5 @@ There are many more overloads, please have a look at the samples app for more...
  - Chain: "DO IF" ➡ Execute if has value, does change source if fails, breaks chain.
  - Select: "CONVERT IF" ➡ Execute if has value, always changes source, breaks chain.
  - Try: "MIGHT BLOW" ➡ wraps the call into a try catch.
- - OnFail: "IF BLEW" executes only if source has exception.
+ - Map: "ERROR" or "SUCCESS" ➡ maps the two outcomes to a callback 
 
